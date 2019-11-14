@@ -1,0 +1,5 @@
+node_modules
+badges
+data.json
+templates/*_test*
+config.json
