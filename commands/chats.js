@@ -16,13 +16,16 @@ async function on_own(message, args) {
 async function on_kick(message, args) {
     let chat = await message.chat
     let users = await util.users_from_nicks(args)
+    let user_ids = users
+        .map(it => it.id)
     let author = await message.author
     let owner_id = await disk.get_owner(chat.id)
+    let mod_ids = (await chat.operators)
+        .map(it => it.id)
+    let admin_ids = (await chat.admins)
+        .map(it => it.id)
 
     if (owner_id != author.id) {
-        let admin_ids = (await chat.admins)
-            .map(it => it.id)
-
         admins = users
             .filter(it => admin_ids.includes(it.id))
 
@@ -31,6 +34,17 @@ async function on_kick(message, args) {
             return
         }
     }
+
+    if (!(admin_ids.includes(author.id))) {
+        mods = users
+            .filter(it => mod_ids.includes(it.id))
+
+        if (mods.length) {
+            message.reply('You may not kick mods')
+            return
+        }
+    }
+
 
     if (users.length == 0) {
         message.reply('Could not find any of those users')
