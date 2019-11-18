@@ -134,7 +134,8 @@ async function prefix_of(message) {
 }
 
 const robot = new Beeper({
-    prefix: prefix_of
+    prefix: prefix_of,
+    reconnect: true
 })
 
 module.exports = { robot }
