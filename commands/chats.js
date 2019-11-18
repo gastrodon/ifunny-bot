@@ -152,7 +152,7 @@ robot.command.on('own', async (message, args) => {
 robot.command.on('kick', async (message, args) => {
         (await (
             await util.not_direct(
-                await util.allow_admin(
+                await util.allow_mod(
                     await util.require_own(on_kick, message), message
                 ), message
             )
